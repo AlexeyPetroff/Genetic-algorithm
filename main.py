@@ -1,8 +1,10 @@
 import random
 import matplotlib.pyplot as plt
 
+
 # First argument is value, second is weight
 items = [(4, 12), (2, 2), (2, 1), (1, 4), (1, 1), (5, 3), (7, 4), (3, 3), (1, 4), (3, 5)]
+
 
 # Fitness function
 def fit(o):

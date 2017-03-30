@@ -1,0 +1,2 @@
+Genetic-Algorytm
+matplotlib==2.0.0
