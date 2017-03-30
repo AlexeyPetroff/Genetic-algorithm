@@ -1,8 +1,8 @@
-
 import random
+import matplotlib.pyplot as plt
 
-items = [(4, 12), (2,2), (2,1), (1,4), (1,1), (5,3), (7,4), (3,3), (1,4), (3,5)]
-
+# First argument is value, second is weight
+items = [(4, 12), (2, 2), (2, 1), (1, 4), (1, 1), (5, 3), (7, 4), (3, 3), (1, 4), (3, 5)]
 
 # Fitness function
 def fit(o):
@@ -17,7 +17,7 @@ def fit(o):
     return value
 
 
-# Initialize first population by random
+# Return a random entity
 def rand_ind():
     ind = []
     for i in items:
@@ -52,22 +52,33 @@ def cross_over(p1, p2):
 
 def mutation(entity):
     gen = random.randrange(0, len(entity))
-    if entity[gen]==1:
-        entity[gen]=0
-    else:
-        entity[gen]=1
+    mut_dict = {0:1, 1:0}
+    entity[gen] = mut_dict[entity[gen]]
     return entity
 
+
+def draw_plot(bests, worsts, avgs):
+    x = range(len(bests))
+    plt.plot(x, bests, label = "The best entity in population")
+    plt.plot(x, worsts, label = "The worst entity in population")
+    plt.plot(x, avgs, label = "The avarage value in population")
+    plt.xlabel("Generation")
+    plt.ylabel("Value of fitness function")
+    plt.legend()
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    plt.show()
+
+
 def fun(pop_size, number_of_generations, surv_size=0.4, child_proc = 0.5, mut_prob=0.05):
-    bests=[]
-    worsts=[]
-    avgs=[]
+    bests = []
+    worsts = []
+    avgs = []
     population=[]
     for i in range(pop_size):
         population.append(rand_ind())
     perfect = population[0]
     while number_of_generations>0:
-        fits=[]
+        fits = []
         for i in population:
             f = fit(i)
             fits.append(f)
@@ -92,4 +103,7 @@ def fun(pop_size, number_of_generations, surv_size=0.4, child_proc = 0.5, mut_pr
                 new_population[i] = mutation(new_population[i])
         population = new_population
         number_of_generations -= 1
+    draw_plot(bests, worsts, avgs)
     return perfect
+
+print(fit(fun(40, 100)))
